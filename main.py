@@ -7,6 +7,7 @@ import time
 
 from pyinotify import IN_CLOSE_WRITE, IN_MODIFY, Notifier, WatchManager
 from tvrenamr.config import Config
+from tvrenamr.episode import Episode
 from tvrenamr.main import TvRenamr
 
 from handler import EventHandler
@@ -33,13 +34,14 @@ def worker(working_dir, config_path):
         try:
             tv = TvRenamr(working_dir, Config(config_path))
 
-            # episode = Episode(**tv.extract_details_from_file(item))
-            # episode.title = tv.retrieve_episode_name(episode)
-            # episode.show_name = tv.format_show_name(episode.show_name)
+            episode = Episode(**tv.extract_details_from_file(item))
+            episode.title = tv.retrieve_episode_name(episode)
+            episode.show_name = tv.format_show_name(episode.show_name)
 
-            # path = tv.build_path(episode)
+            path = tv.build_path(episode)
 
-            # tv.rename(item, path)
+            tv.rename(item, path)
+            # TODO: log destination of renamed file
         except Exception as e:
             for msg in e.args:
                 log.critical('Error: {0}'.format(msg))
