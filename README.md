@@ -35,4 +35,14 @@ Update supervisor:
     sudo supervisorctl update
 
 
+Set up log rotation in `/etc/logrotate.d/tvrd` (with sudo):
+
+    /var/log/tvrd/* {
+        missingok
+        nocompress
+        rotate 5
+        size 100M
+    }
+
+
 Profit.
