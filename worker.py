@@ -6,6 +6,8 @@ from tvrenamr.config import Config
 from tvrenamr.episode import Episode
 from tvrenamr.main import TvRenamr
 
+from .deluge import remove_torrent
+
 
 log = logging.getLogger('Watcher')
 
@@ -16,6 +18,8 @@ class Worker(object):
             item = os.path.split(queue.get())[1]
             log.debug('Found: {0}'.format(item))
             try:
+                path = ''
+                remove_torrent(path)
                 self.rename(item, working_dir, config_path)
                 # TODO: log destination of renamed file
             except Exception as e:
