@@ -3,15 +3,12 @@ import logging
 import os
 import Queue
 import threading
-import time
 
 from pyinotify import IN_CLOSE_WRITE, IN_MODIFY, Notifier, WatchManager
-from tvrenamr.config import Config
-from tvrenamr.episode import Episode
-from tvrenamr.main import TvRenamr
 
 from handler import EventHandler
 from logs import start_logging
+from worker import Worker
 
 
 EXCLUDES = '.AppleDouble'
@@ -27,29 +24,6 @@ parser.add_argument('--debug', dest='debug', action='store_true')
 args = parser.parse_args()
 
 
-def worker(working_dir, config_path):
-    while True:
-        item = os.path.split(q.get())[1]
-        log.debug('Found: {0}'.format(item))
-        try:
-            tv = TvRenamr(working_dir, Config(config_path))
-
-            episode = Episode(**tv.extract_details_from_file(item))
-            episode.title = tv.retrieve_episode_name(episode)
-            episode.show_name = tv.format_show_name(episode.show_name)
-
-            path = tv.build_path(episode)
-
-            tv.rename(item, path)
-            # TODO: log destination of renamed file
-        except Exception as e:
-            for msg in e.args:
-                log.critical('Error: {0}'.format(msg))
-            continue
-        time.sleep(1)  # don't use 100% cpu
-        q.task_done()
-
-
 def exclude(path):
     for e in EXCLUDES:
         if e in path:
@@ -62,7 +36,7 @@ if __name__ == '__main__':
     q = Queue.Queue()
 
     config = os.path.abspath(os.path.join(os.path.dirname(__file__), 'config.yml'))
-    t = threading.Thread(target=worker, args=(args.path, config))
+    t = threading.Thread(target=Worker, args=(q, args.path, config))
     t.daemon = True
     t.start()
 
