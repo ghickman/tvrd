@@ -6,7 +6,7 @@ from tvrenamr.config import Config
 from tvrenamr.episode import Episode
 from tvrenamr.main import TvRenamr
 
-from .deluge import remove_torrent
+from deluge import remove_torrent
 
 
 log = logging.getLogger('Watcher')
