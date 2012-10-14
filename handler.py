@@ -16,7 +16,12 @@ class EventHandler(ProcessEvent):
         self.queue = queue
         self.working_dir = working_dir
 
-    def valid_type(self, path):
+    def is_valid(self, path):
+        if os.path.isdir(path):
+            for fn in os.listdir(path):
+                if os.path.splitext(path)[1] in self.types:
+                    log.debug('folder: {0}'.format(path))
+                    return True
         return os.path.splitext(path)[1] in self.types
 
     def process_IN_CLOSE_WRITE(self, event):
@@ -27,7 +32,7 @@ class EventHandler(ProcessEvent):
             self.queue.put(event.pathname)
 
     def process_IN_MODIFY(self, event):
-        if self.valid_type(event.pathname) and not event.pathname in self.created:
+        if self.is_valid(event.pathname) and not event.pathname in self.created:
             log.debug('First occurance of: {0}'.format(event.pathname))
             self.created.append(event.pathname)
 
