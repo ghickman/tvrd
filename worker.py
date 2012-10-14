@@ -15,7 +15,7 @@ log = logging.getLogger('Watcher')
 class Worker(object):
     def __new__(self, queue, working_dir, config_path):
         while True:
-            item = os.path.split(queue.get())[1]
+            item = os.path.split(queue.get())[1]  # should be file or folder
             log.debug('Found: {0}'.format(item))
             try:
                 path = ''
