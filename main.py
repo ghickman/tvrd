@@ -47,7 +47,7 @@ if __name__ == '__main__':
 
     # watch this directory, with mask(s)
     mask = IN_MODIFY | IN_CLOSE_WRITE
-    wdd = watch_manager.add_watch(args.path, mask, rec=True)
+    wdd = watch_manager.add_watch(args.path, mask, rec=True, auto_add=True)
 
     # setup options
     notifier.loop(daemonize=False)
