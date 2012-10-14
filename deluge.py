@@ -5,10 +5,10 @@ import os
 import requests
 
 
-log = logging.getLogger('Watcher')
+log = logging.getLogger('Deluge')
 
 
-def remove_torrent(self, path):
+def remove_torrent(path):
     url = 'http://192.168.0.2:1337/json'
     headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
 
@@ -20,7 +20,7 @@ def remove_torrent(self, path):
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     cookies = r.cookies
     if r.ok:
-        log.debug('Deluge: Logged In')
+        log.debug('Logged In')
 
     def request(method, params=None):
         if not params:
@@ -32,4 +32,5 @@ def remove_torrent(self, path):
     torrent_dict = json.loads(r.content)['result']['torrents']
     torrents = {t[1]['name']: t[0] for t in torrent_dict.iteritems()}
     request('core.remove_torrent', [torrents[path], False])
+    log.debug('Removal request sent')
 
