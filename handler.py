@@ -12,6 +12,7 @@ class EventHandler(ProcessEvent):
     created = []
 
     def __init__(self, working_dir, queue):
+        log.debug('create handler')
         self.types = ('.avi', '.mkv', '.mp4')
         self.queue = queue
         self.working_dir = working_dir
