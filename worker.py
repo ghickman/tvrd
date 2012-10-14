@@ -13,7 +13,7 @@ log = logging.getLogger('Watcher')
 
 
 class Worker(object):
-    def __call__(self, queue, working_dir, config_path):
+    def __new__(self, queue, working_dir, config_path):
         while True:
             item = os.path.split(queue.get())[1]
             log.debug('Found: {0}'.format(item))
