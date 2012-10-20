@@ -8,7 +8,7 @@ from pyinotify import IN_CLOSE_WRITE, IN_MODIFY, Notifier, WatchManager
 
 from handler import EventHandler
 from logs import start_logging
-from worker import Worker
+from worker import worker
 
 
 EXCLUDES = '.AppleDouble'
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     q = Queue.Queue()
 
     config = os.path.abspath(os.path.join(os.path.dirname(__file__), 'config.yml'))
-    t = threading.Thread(target=Worker, args=(q, args.path, config))
+    t = threading.Thread(target=worker, args=(q, args.path, config))
     t.daemon = True
     t.start()
 
