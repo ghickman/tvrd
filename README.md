@@ -28,6 +28,7 @@ Create a supervisor config in `/etc/supervisor/conf.d/tvrd.conf`:
     autostart=true
     autorestart=true
     redirect_stderr=True
+    environment=DELUGE_PASSWORD='<deluge pass>'
 
 
 Update supervisor:
