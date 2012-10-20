@@ -31,6 +31,10 @@ def remove_torrent(path):
     r = request('web.update_ui', ['name', {}])
     torrent_dict = json.loads(r.content)['result']['torrents']
     torrents = {t[1]['name']: t[0] for t in torrent_dict.iteritems()}
-    request('core.remove_torrent', [torrents[path], False])
-    log.debug('Removal request sent')
+    try:
+        request('core.remove_torrent', [torrents[path], False])
+    except KeyError:
+        log.debug('Torrent not found using: {0}'.format(path))
+    else:
+        log.debug('Removal request sent')
 
