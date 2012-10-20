@@ -15,7 +15,7 @@ EXCLUDES = '.AppleDouble'
 LOG_FILE = '/var/log/tvrd/tvrd.log'
 
 
-log = logging.getLogger('Watcher')
+log = logging.getLogger('tvrd.main')
 
 
 parser = argparse.ArgumentParser(description='Process some integers.')

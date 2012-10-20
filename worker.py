@@ -9,7 +9,7 @@ from tvrenamr.main import TvRenamr
 from deluge import remove_torrent
 
 
-log = logging.getLogger('Watcher')
+log = logging.getLogger('tvrd.worker')
 
 
 class Worker(object):

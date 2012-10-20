@@ -5,7 +5,7 @@ import os
 import requests
 
 
-log = logging.getLogger('Deluge')
+log = logging.getLogger('tvrd.deluge')
 
 
 def remove_torrent(path):

@@ -5,7 +5,7 @@ import time
 from pyinotify import ProcessEvent
 
 
-log = logging.getLogger('Watcher')
+log = logging.getLogger('tvrd.handler')
 
 
 class EventHandler(ProcessEvent):
