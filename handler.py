@@ -10,15 +10,21 @@ log = logging.getLogger('tvrd.handler')
 
 class EventHandler(ProcessEvent):
     created = []
+    excludes = ('.AppleDouble',)
+    types = ('.avi', '.mkv', '.mp4')
 
     def __init__(self, working_dir, queue):
         log.debug('create handler')
-        self.types = ('.avi', '.mkv', '.mp4')
         self.queue = queue
         self.working_dir = working_dir
 
+    def is_excluded(self, path):
+        for e in self.excludes:
+            if e in path:
+                yield True
+
     def is_valid(self, path):
-        if os.path.isdir(path):
+        if os.path.isdir(path) and not self.is_excluded(path):
             for fn in os.listdir(path):
                 if os.path.splitext(path)[1] in self.types:
                     log.debug('folder: {0}'.format(path))

@@ -11,7 +11,6 @@ from logs import start_logging
 from worker import worker
 
 
-EXCLUDES = '.AppleDouble'
 LOG_FILE = '/var/log/tvrd/tvrd.log'
 
 
@@ -22,12 +21,6 @@ parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('path')
 parser.add_argument('--debug', dest='debug', action='store_true')
 args = parser.parse_args()
-
-
-def exclude(path):
-    for e in EXCLUDES:
-        if e in path:
-            return True
 
 
 if __name__ == '__main__':
