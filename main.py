@@ -11,7 +11,8 @@ from logs import start_logging
 from worker import worker
 
 
-LOG_FILE = '/var/log/tvrd/tvrd.log'
+FIREHOSE = '/var/log/tvrd/tvrd.log'
+WEB_LOG = '/var/log/tvrd/web.log'
 
 
 log = logging.getLogger('tvrd.main')
@@ -24,7 +25,7 @@ args = parser.parse_args()
 
 
 if __name__ == '__main__':
-    start_logging(LOG_FILE, debug=args.debug)
+    start_logging(FIREHOSE, WEB_LOG, debug=args.debug)
 
     q = Queue.Queue()
 
