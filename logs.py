@@ -7,6 +7,7 @@ def start_logging(firehose_filename, web_log_filename, debug):
     log_level = logging.DEBUG
 
     # add the custom levels
+    logging.addLevelName(21, 'WEB')
     logging.addLevelName(22, 'MINIMAL')
     logging.addLevelName(26, 'SHORT')
 
