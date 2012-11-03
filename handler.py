@@ -9,7 +9,6 @@ log = logging.getLogger('tvrd.handler')
 
 
 class EventHandler(ProcessEvent):
-    created = []
     excludes = ('.AppleDouble',)
     types = ('.avi', '.mkv', '.mp4')
 
@@ -31,15 +30,8 @@ class EventHandler(ProcessEvent):
                     return True
         return os.path.splitext(path)[1] in self.types
 
-    def process_IN_CLOSE_WRITE(self, event):
-        if event.pathname in self.created:
-            log.debug('Detected file: {0}'.format(event.name))
-            self.created.remove(event.pathname)
-            time.sleep(0.5)
-            self.queue.put(event.pathname)
-
-    def process_IN_MODIFY(self, event):
-        if self.is_valid(event.pathname) and not event.pathname in self.created:
-            log.debug('First occurance of: {0}'.format(event.pathname))
-            self.created.append(event.pathname)
+    def process_IN_MOVED_TO(self, event):
+        log.debug('Detected file: {0}'.format(event.name))
+        self.queue.put(event.pathname)
+        time.sleep(0.5)
 
