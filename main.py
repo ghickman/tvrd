@@ -4,7 +4,7 @@ import os
 import Queue
 import threading
 
-from pyinotify import IN_CLOSE_WRITE, IN_MODIFY, Notifier, WatchManager
+from pyinotify import IN_MOVED_TO, Notifier, WatchManager
 
 from handler import EventHandler
 from logs import start_logging
@@ -41,8 +41,7 @@ if __name__ == '__main__':
 
     # watch this directory, with mask(s)
     # TODO: Consider IN_MOVED_TO. Deluge doesn't use it but would I?
-    mask = IN_MODIFY | IN_CLOSE_WRITE
-    wdd = watch_manager.add_watch(args.path, mask, rec=True, auto_add=True)
+    wdd = watch_manager.add_watch(args.path, IN_MOVED_TO, rec=True, auto_add=True)
 
     # setup options
     notifier.loop(daemonize=False)
