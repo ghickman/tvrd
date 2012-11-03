@@ -7,6 +7,7 @@ def start_logging(firehose_filename, web_log_filename, debug):
     log_level = logging.DEBUG
 
     # add the custom levels
+    logging.addLevelName(9, 'WEB')
     logging.addLevelName(22, 'MINIMAL')
     logging.addLevelName(26, 'SHORT')
 
@@ -24,9 +25,9 @@ def start_logging(firehose_filename, web_log_filename, debug):
         log_level = logging.CRITICAL
 
     # web file
-    web_formatter = logging.Formatter(_format, date_format)
+    web_formatter = logging.Formatter('%(asctime)-15s %(message)s', date_format)
     web = logging.FileHandler(web_log_filename)
-    web.setLevel(logging.INFO)
+    web.setLevel(9)
     web.setFormatter(web_formatter)
     logging.getLogger().addHandler(web)
 
