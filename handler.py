@@ -33,7 +33,7 @@ class EventHandler(ProcessEvent):
 
     def process_IN_CLOSE_WRITE(self, event):
         if event.pathname in self.created:
-            log.info('Detected file: {0}'.format(event.name))
+            log.debug('Detected file: {0}'.format(event.name))
             self.created.remove(event.pathname)
             time.sleep(0.5)
             self.queue.put(event.pathname)
