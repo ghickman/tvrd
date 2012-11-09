@@ -1,13 +1,24 @@
 import logging
 
 
+WEB_LEVEL = 21
+
+
+class WebFilter(object):
+    def __init__(self, level):
+        self._level = level
+
+    def filter(self, log):
+        return log.levelno == self._level
+
+
 def start_logging(firehose_filename, web_log_filename, debug):
     _format = '%(asctime)-15s %(levelname)-10s %(name)-11s %(message)s'
     date_format = '%Y-%m-%d %H:%M'
     log_level = logging.DEBUG
 
     # add the custom levels
-    logging.addLevelName(90, 'WEB')
+    logging.addLevelName(WEB_LEVEL, 'WEB')
     logging.addLevelName(22, 'MINIMAL')
     logging.addLevelName(26, 'SHORT')
 
@@ -27,8 +38,9 @@ def start_logging(firehose_filename, web_log_filename, debug):
     # web file
     web_formatter = logging.Formatter('%(asctime)-15s %(message)s', date_format)
     web = logging.FileHandler(web_log_filename)
-    web.setLevel(9)
+    web.setLevel(WEB_LEVEL)
     web.setFormatter(web_formatter)
+    web.addFilter(WebFilter(WEB_LEVEL))
     logging.getLogger().addHandler(web)
 
     # console
