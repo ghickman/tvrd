@@ -20,7 +20,6 @@ def rename(item, working_dir, config_path):
     episode.show_name = tv.format_show_name(episode.show_name)
 
     path = tv.build_path(episode)
-
     return tv.rename(item, path)
 
 
