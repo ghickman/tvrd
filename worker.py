@@ -33,7 +33,7 @@ def worker(queue, working_dir, config_path):
         try:
             destination = rename(item, working_dir, config_path)
             remove_torrent(item)
-            log.log(90, os.path.split(destination)[1])
+            log.log(21, os.path.splitext(os.path.split(destination)[1])[0])
         except Exception as e:
             for msg in e.args:
                 kwargs = {'type': e.__repr__()[:e.__repr__().index('(')], 'error': msg}
