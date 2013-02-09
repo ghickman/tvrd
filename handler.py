@@ -32,6 +32,8 @@ class EventHandler(ProcessEvent):
 
     def process_IN_MOVED_TO(self, event):
         log.debug('Detected file: {0}'.format(event.name))
-        self.queue.put(event.pathname)
+        if self.is_valid(event.name):
+            log.info('Queued file: {0}'.format(event.name))
+            self.queue.put(event.pathname)
         time.sleep(0.5)
 
